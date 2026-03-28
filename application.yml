@@ -1,19 +1,13 @@
 spring:
   cloud:
+    function:
+      definition: audit
     stream:
-      function:
-        definition: audit # Optional if only using StreamBridge
       bindings:
         audit-out-0:
-          destination: banking.audit.logs # The actual Kafka Topic name
-          content-type: application/json
+          destination: banking.audit.logs
+          group: ${spring.application.name}
       kafka:
         binder:
-          brokers: ${KAFKA_URL:localhost:9092}
-          replication-factor: 1 # Production standard
-        bindings:
-          audit-out-0:
-            producer:
-              configuration:
-                acks: all # High durability
-                retries: 3
+          brokers:
+            - ${KAFKA_URL:localhost:9092}
