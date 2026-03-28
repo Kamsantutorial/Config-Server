@@ -1,12 +1,9 @@
 spring:
   cloud:
-    function:
-      definition: audit
     stream:
       bindings:
         audit-out-0:
           destination: banking.audit.logs
-          group: ${spring.application.name}
       kafka:
         binder:
           brokers:
