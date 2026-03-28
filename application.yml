@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: audit # Optional if only using StreamBridge
+      bindings:
+        audit-out-0:
+          destination: banking.audit.logs # The actual Kafka Topic name
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: ${KAFKA_URL:localhost:9092}
+          replication-factor: 3 # Production standard
+        bindings:
+          audit-out-0:
+            producer:
+              configuration:
+                acks: all # High durability
+                retries: 3
