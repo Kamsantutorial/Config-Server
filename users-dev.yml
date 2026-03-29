@@ -1,3 +1,72 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: users
+  profiles:
+    active: "dev"
+  config:
+    import: "optional:configserver:http://localhost:8071"
+  datasource:
+    url: jdbc:postgresql://localhost:5438/usersdb
+    username: usersdb
+    password: usersdb
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  cloud:
+    function:
+      definition: createUser
+    stream:
+      bindings:
+        createUser-in-0:
+          destination: send-communication
+          group: ${spring.application.name}
+        createUser-out-0:
+          destination: communication-sent
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+    password: elastic123
+
+keycloak:
+  admin:
+    base-url: http://localhost:7080
+    realm: banking-platform
+    client-id: users-service13
+    client-secret: QwzbykBtMSArxDFVQwq3MnpNlbXr7ie7113
+    username: api-user-service
+    password: admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 build:
   version: "1.0"
 

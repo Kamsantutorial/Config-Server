@@ -1,3 +1,50 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: gatewayserver
+  profiles:
+    active: "dev"
+  config:
+    import: "optional:configserver:http://localhost:8071"
+  sql:
+    init:
+      mode: always
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/gatewaydb
+    #url: r2dbc:postgresql://localhost:5439/gatewaydb
+    username: gatewaydb
+    password: gatewaydb
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/banking-platform/protocol/openid-connect/certs"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    shutdown:
+      access: unrestricted
+    health:
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
 build:
   version: "1.0"
 
