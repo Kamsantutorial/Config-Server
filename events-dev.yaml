@@ -6,7 +6,7 @@ spring:
   config:
     import:
       - "optional:configserver:http://localhost:8071"
-
+      - "vault://"
   datasource:
     url: jdbc:postgresql://localhost:5440/eventsdb
     username: ${EVENTS_DB_USERNAME}
@@ -28,6 +28,15 @@ spring:
         binder:
           brokers:
             - ${KAFKA_URL:localhost:9092}
+    vault:
+      uri: http://localhost:8200
+      fail-fast: true
+      authentication: token
+      token: ${VAULT_EVENTS_TOKEN}
+      kv:
+        enabled: true
+        backend: secret
+        default-context: events-db
 common:
   logging:
     level: DEBUG

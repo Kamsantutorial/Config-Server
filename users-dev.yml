@@ -6,7 +6,9 @@ spring:
   profiles:
     active: "dev"
   config:
-    import: "optional:configserver:http://localhost:8071"
+    import:
+      - "optional:configserver:http://localhost:8071"
+      - "vault://"
   datasource:
     url: jdbc:postgresql://localhost:5438/usersdb
     username: ${USERS_DB_USERNAME}
@@ -35,6 +37,16 @@ spring:
     username: elastic
     password: elastic123
 
+  vault:
+    uri: http://localhost:8200
+    fail-fast: true
+    authentication: token
+    token: ${VAULT_USERS_TOKEN}
+    kv:
+      enabled: true
+      backend: secret
+      default-context: users-db
+
 keycloak:
   admin:
     base-url: http://localhost:7080
@@ -43,6 +55,15 @@ keycloak:
     client-secret: QwzbykBtMSArxDFVQwq3MnpNlbXr7ie7113
     username: api-user-service
     password: admin
+
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    fetchRegistry: true
+#    registerWithEureka: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8070/eureka/
 
 management:
   endpoints:
