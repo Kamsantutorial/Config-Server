@@ -6,19 +6,31 @@ spring:
   profiles:
     active: "dev"
   config:
-    import: "optional:configserver:http://localhost:8071"
+    import:
+      - "optional:configserver:http://localhost:8071"
+      - "vault://"
   sql:
     init:
       mode: always
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/gatewaydb
-    username: ${GATWAY_DB_USERNAME}
-    password: ${GATWAY_DB_PASSWORD}
+    username: ${GATEWAY_DB_USERNAME}
+    password: ${GATEWAY_DB_PASSWORD}
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: "http://localhost:7080/realms/banking-platform/protocol/openid-connect/certs"
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      fail-fast: true
+      authentication: token
+      token: ${VAULT_TOKEN}
+      kv:
+        enabled: true
+        backend: secret
+        default-context: gateway-db
 
 management:
   endpoints:
