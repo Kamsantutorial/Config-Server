@@ -9,8 +9,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5440/eventsdb
-    username: eventsdb
-    password: eventsdb
+    username: ${EVENTS_DB_USERNAME}
+    password: ${EVENTS_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

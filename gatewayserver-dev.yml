@@ -12,9 +12,8 @@ spring:
       mode: always
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/gatewaydb
-    #url: r2dbc:postgresql://localhost:5439/gatewaydb
-    username: gatewaydb
-    password: gatewaydb
+    username: ${GATWAY_DB_USERNAME}
+    password: ${GATWAY_DB_PASSWORD}
   security:
     oauth2:
       resourceserver:
