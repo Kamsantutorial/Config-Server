@@ -7,6 +7,7 @@ spring:
     import:
       - "optional:configserver:http://localhost:8071"
       - "vault://"
+
   datasource:
     url: jdbc:postgresql://localhost:5440/eventsdb
     username: ${EVENTS_DB_USERNAME}
