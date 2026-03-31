@@ -17,7 +17,7 @@ spring:
       uri: http://localhost:8200
       fail-fast: true
       authentication: token
-      token: ${VAULT_TOKEN}
+      token: ${VAULT_TOKEN:hvs.ecAzWjf8sMnyqHhM2OqGmZHH}
       kv:
         enabled: true
         backend: secret
