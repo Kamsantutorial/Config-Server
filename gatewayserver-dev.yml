@@ -1,12 +1,11 @@
 server:
   port: 8090
+
 spring:
   application:
     name: gatewayserver
-  config:
-    import:
-      - "optional:configserver:http://localhost:8071"
-      - "vault://"
+
+  # Reactive Database Configuration
   sql:
     init:
       mode: always
@@ -14,54 +13,18 @@ spring:
     url: r2dbc:postgresql://localhost:5432/gatewaydb
     username: ${GATEWAY_DB_USERNAME}
     password: ${GATEWAY_DB_PASSWORD}
+
+  # Security Configuration
   security:
     oauth2:
       resourceserver:
         jwt:
+          # Pointing to your Keycloak instance
           jwk-set-uri: "http://localhost:7080/realms/banking-platform/protocol/openid-connect/certs"
+
   cloud:
+    # Inherits Vault URI and Token from global application.yml
     vault:
-      uri: http://localhost:8200
-      fail-fast: true
-      authentication: token
-      token: ${VAULT_TOKEN}
-      kv:
-        enabled: true
-        backend: secret
-        default-context: gateway-db
+      default-context: gateway-db
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  health:
-    readiness-state:
-      enabled: true
-    liveness-state:
-      enabled: true
-  endpoint:
-    shutdown:
-      access: unrestricted
-    health:
-      probes:
-        enabled: true
-  info:
-    env:
-      enabled: true
-  metrics:
-    tags:
-      application: ${spring.application.name}
-
-
-build:
-  version: "1.0"
-
-accounts:
-  message: "Welcome to bunthoeurn gatewayserver related docker APIs "
-  contactDetails:
-    name: "bunthoeurn - Developer"
-    email: "bunthoeurn.com"
-  onCallSupport:
-    - (555) 555-1234
-    - (555) 523-1345
+# management, health, and metrics are now inherited from global!
