@@ -3,8 +3,6 @@ server:
 spring:
   application:
     name: gatewayserver
-  profiles:
-    active: "dev"
   config:
     import:
       - "optional:configserver:http://localhost:8071"
