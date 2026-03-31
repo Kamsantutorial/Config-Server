@@ -1,11 +1,59 @@
+# Global settings for all services
 spring:
   cloud:
+    # Shared Kafka Broker settings
     stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_URL:localhost:9092}
+          connection-timeout: 5
+      # Shared Audit Output (if every service sends logs here)
       bindings:
         audit-out-0:
           destination: banking.audit.logs
-      kafka:
-        binder:
-          brokers:
-            - ${KAFKA_URL:localhost:9092}
-          connection-timeout: 5
+
+    # Shared Vault Connection
+    vault:
+      uri: http://localhost:8200
+      fail-fast: true
+      authentication: token
+      token: ${VAULT_TOKEN}
+      kv:
+        enabled: true
+        backend: secret
+
+# Standardize Actuator and Monitoring for all services
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# Shared contact/build info
+build:
+  version: "1.0"
+
+accounts:
+  contactDetails:
+    name: "bunthoeurn - Developer"
+    email: "bunthoeurn.com"
+  onCallSupport:
+    - (555) 555-1234
+    - (555) 523-1345
+
+common:
+  logging:
+    level: DEBUG
+  jackson-snake-case:
+    enabled: true

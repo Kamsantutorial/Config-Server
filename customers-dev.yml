@@ -1,18 +1,15 @@
 server:
   port: 8081
+
 spring:
   application:
     name: "customers"
-  config:
-    import:
-      - "optional:configserver:http://localhost:8071"
-      - "vault://"
 
   datasource:
     url: jdbc:postgresql://localhost:5432/customersdb
     username: ${CUSTOMERS_DB_USERNAME}
     password: ${CUSTOMERS_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,57 +24,8 @@ spring:
           group: ${spring.application.name}
         customerCreated-out-0:
           destination: send-communication
-      kafka:
-        binder:
-          brokers:
-            - localhost:9092
     vault:
-      uri: http://localhost:8200
-      fail-fast: true
-      authentication: token
-      token: ${VAULT_TOKEN}
-      kv:
-        enabled: true
-        backend: secret
-        default-context: customers-db
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  health:
-    readiness-state:
-      enabled: true
-    liveness-state:
-      enabled: true
-  endpoint:
-    shutdown:
-      access: unrestricted
-    health:
-      probes:
-        enabled: true
-  info:
-    env:
-      enabled: true
-  metrics:
-    tags:
-      application: ${spring.application.name}
-
-common:
-  logging:
-    level: DEBUG
-  jackson-snake-case:
-    enabled: true
-
-build:
-  version: "1.0"
+      default-context: customers-db
 
 accounts:
-  message: "Welcome to bunthoeurn customers related docker APIs "
-  contactDetails:
-    name: "bunthoeurn - Developer"
-    email: "bunthoeurn.com"
-  onCallSupport:
-    - (555) 555-1234
-    - (555) 523-1345
+  message: "Welcome to bunthoeurn customers related docker APIs"
