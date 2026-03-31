@@ -8,3 +8,4 @@ spring:
         binder:
           brokers:
             - ${KAFKA_URL:localhost:9092}
+          connection-timeout: 5
