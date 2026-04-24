@@ -7,8 +7,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5440/eventsdb
-    username: ${EVENTS_DB_USERNAME}
-    password: ${EVENTS_DB_PASSWORD}
+    username: ${EVENTS_DB_USERNAME:eventsdb}
+    password: ${EVENTS_DB_PASSWORD:eventsdb}
     # driver-class-name is inherited if you put it in global,
     # but keeping it here is fine for clarity.
     driver-class-name: org.postgresql.Driver
