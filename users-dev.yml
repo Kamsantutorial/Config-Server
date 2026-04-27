@@ -7,8 +7,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5438/usersdb
-    username: ${USERS_DB_USERNAME}
-    password: ${USERS_DB_PASSWORD}
+    # username: ${USERS_DB_USERNAME}
+    # password: ${USERS_DB_PASSWORD}
 
   elasticsearch:
     uris: http://localhost:9200
