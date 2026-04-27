@@ -5,11 +5,11 @@ spring:
   application:
     name: "events"
 
-  # datasource:
-  #   url: jdbc:postgresql://localhost:5440/eventsdb
-  #   username: ${EVENTS_DB_USERNAME:eventsdb}
-  #   password: ${EVENTS_DB_PASSWORD:eventsdb}
-  #   driver-class-name: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5440/eventsdb
+    username: ${EVENTS_DB_USERNAME:eventsdb}
+    password: ${EVENTS_DB_PASSWORD:eventsdb}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
